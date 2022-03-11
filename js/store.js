@@ -41,7 +41,20 @@ allProducts.forEach((product)=>{
     /* wenn you have differnt class , you use className */
     productAddBtn.className="btn btn-primary shop-item-button";
     productAddBtn.addEventListener("click",()=>{
-        addProductToBasket(product.id);
+        // checkNoRepeatProduct(product.id);
+        let checkNoRepeatProductInCartUserBasket= userBasket.some((productsFromUserBasketArray)=>{
+            return product.id=== productsFromUserBasketArray.id;
+        })
+       if(checkNoRepeatProductInCartUserBasket){
+           /* (count+1) add count product in userBasket Array  */
+           changeCountFromUserBasket(product.id,(product.count+1));
+           /* add count product in Cart-product-basket   */
+            basketProductGenerator(userBasket);
+
+       }
+       else{
+           addProductToBasket(product.id);
+       }
 
     });
     
@@ -138,11 +151,15 @@ function removeProductFromBasket(productID){
 
 }
 
-function removeCompeleteProductBasket(){
+
+
+
+function removeCopeleteProductBasket(){
     userBasket=[];
     basketProductGenerator(userBasket)
 }
-btn_purchase.addEventListener("click",removeCompeleteProductBasket);
+btn_purchase.addEventListener("click",removeCopeleteProductBasket);
+
 
 function calcTotalPrice(userBasket){
     let sumPrice=0;
@@ -160,5 +177,7 @@ function changeCountFromUserBasket(product_Id,newCountValue){
         }
     })
     /* after count chaange update total-Price */
-    calcTotalPrice(userBasket)
+    calcTotalPrice(userBasket);
+    console.log(userBasket);
 }
+
