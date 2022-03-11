@@ -46,8 +46,9 @@ allProducts.forEach((product)=>{
             return product.id=== productsFromUserBasketArray.id;
         })
        if(checkNoRepeatProductInCartUserBasket){
+           /* sometimes product.count was String with "+" ?? */
            /* (count+1) add count product in userBasket Array  */
-           changeCountFromUserBasket(product.id,(product.count+1));
+           changeCountFromUserBasket(product.id,(Number(product.count)+1));
            /* add count product in Cart-product-basket   */
             basketProductGenerator(userBasket);
 
@@ -124,6 +125,7 @@ function basketProductGenerator(basketUserArray){
 
         basketProductBtnRemove.addEventListener("click",()=>{
             removeProductFromBasket(product.id);
+            calcTotalPrice(userBasket);
         })
 
 
@@ -151,15 +153,13 @@ function removeProductFromBasket(productID){
 
 }
 
-
-
-
-function removeCopeleteProductBasket(){
+function removeCompeleteProductBasket(){
     userBasket=[];
-    basketProductGenerator(userBasket)
-}
-btn_purchase.addEventListener("click",removeCopeleteProductBasket);
+    basketProductGenerator(userBasket);
+    calcTotalPrice(userBasket);
 
+}
+btn_purchase.addEventListener("click",removeCompeleteProductBasket);
 
 function calcTotalPrice(userBasket){
     let sumPrice=0;
@@ -178,6 +178,5 @@ function changeCountFromUserBasket(product_Id,newCountValue){
     })
     /* after count chaange update total-Price */
     calcTotalPrice(userBasket);
-    console.log(userBasket);
 }
 
