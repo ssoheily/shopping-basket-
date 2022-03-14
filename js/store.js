@@ -15,6 +15,7 @@ let shopItemsContainer=$.querySelector(".shop-items");
 let basketProductContainerAll=$.querySelector(".cart-items");
 let btn_purchase=$.querySelector("#remove-all-items");
 let totalPricesCalcElem=$.querySelector(".cart-total-price");
+let fragment = $.createDocumentFragment();
 
 allProducts.forEach((product)=>{
     let productContaier=$.createElement("div");
@@ -63,10 +64,11 @@ allProducts.forEach((product)=>{
 
     productContaier.append(productTitleSpan,productImgEle,productDetailContainer);
 
-    shopItemsContainer.append(productContaier);
+    fragment.append(productContaier);
     
     
 });
+shopItemsContainer.append(fragment);
 
 function addProductToBasket(productId){
     /* mainProduct= productSelected */
@@ -135,10 +137,12 @@ function basketProductGenerator(basketUserArray){
         /* append  1,2,3  in basketProductsDetailsContainer */
         basketProductsDetailsContainer.append(basketProducts_ImgContainer,basketProductPriceSpam,basketProductQuantityContainer)
 
-        basketProductContainerAll.append(basketProductsDetailsContainer);
+        fragment.append(basketProductsDetailsContainer);
+        // basketProductContainerAll.append(basketProductsDetailsContainer);
 
     })
     // let totalPricesCalc= calcTotalPrice(basketUserArray);
+            basketProductContainerAll.append(fragment);
 
 } 
 
@@ -149,7 +153,9 @@ function removeProductFromBasket(productID){
     })    
     /* with filter without splice just:condition =>  return product.id!==productID; */
             userBasket.splice(indexRemoveProduct, 1); 
-            basketProductGenerator(userBasket)
+            basketProductGenerator(userBasket);
+            // calcTotalPrice(userBasket);
+
 
 }
 
